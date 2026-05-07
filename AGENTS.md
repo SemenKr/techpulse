@@ -135,6 +135,8 @@ The project focuses on:
 * Use `src/lib` only for small shared utilities.
 * Prefer composition over configuration systems.
 * Avoid future-proof abstractions.
+* Use `index.ts` files only as small public APIs for component folders.
+* Do not create barrel exports for every folder by default.
 
 ---
 

@@ -58,7 +58,7 @@ export function Sidebar({ onNavigate }: SidebarProps) {
               onClick={onNavigate}
               aria-current={isActive ? "page" : undefined}
               className={cn(
-                "flex h-10 items-center gap-3 rounded-md px-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                "flex h-10 items-center gap-3 rounded-md px-3 text-sm font-medium text-muted-foreground transition-[color,background-color,transform] duration-150 hover:translate-x-0.5 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
                 isActive &&
                   "bg-sidebar-accent text-sidebar-accent-foreground shadow-xs"
               )}

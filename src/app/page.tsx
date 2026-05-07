@@ -6,11 +6,13 @@ import {
   TrendingUp,
 } from "lucide-react"
 
-import { ChartCard } from "@/components/dashboard/chart-card"
-import { FeedCard } from "@/components/dashboard/feed-card"
-import { MetricCard } from "@/components/dashboard/metric-card"
-import { SectionHeader } from "@/components/dashboard/section-header"
-import { DashboardShell } from "@/components/layout/dashboard-shell"
+import {
+  ChartCard,
+  FeedCard,
+  MetricCard,
+  SectionHeader,
+} from "@/components/dashboard"
+import { DashboardShell } from "@/components/layout"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 
