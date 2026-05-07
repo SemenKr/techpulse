@@ -22,7 +22,7 @@ export function Header({ onOpenMobileNav }: HeaderProps) {
     getServerMountedSnapshot
   )
   const isDarkTheme = resolvedTheme === "dark"
-  const nextTheme = getNextTheme(theme)
+  const nextTheme = isMounted ? getNextTheme(theme) : "system"
   const themeLabel = isMounted
     ? getThemeLabel(nextTheme, dictionary.common)
     : dictionary.common.switchToSystem

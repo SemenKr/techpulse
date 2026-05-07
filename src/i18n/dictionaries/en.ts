@@ -70,8 +70,33 @@ export const en = {
       subtitle: "Recent priority signals from monitored sources.",
       feedTitle: "Priority feed",
       feedSubtitle: "Verified intelligence",
+      hourlyTitle: "Hourly activity",
+      hourlySubtitle: "Signals by hour",
       categoryMixTitle: "Category mix",
       categoryMixSubtitle: "Placeholder breakdown",
+    },
+    charts: {
+      signalTrendLabel: "Signal and verified activity trend",
+      signalTrendSummary:
+        "Signals increased from 142 on Monday to 224 on Sunday, while verified items rose from 32 to 66.",
+      hourlyActivityLabel: "Hourly signal activity",
+      hourlyActivitySummary:
+        "Hourly activity peaks around midday and stays elevated through the afternoon.",
+      categoryDistributionLabel: "Signal distribution by category",
+      categoryDistributionSummary:
+        "AI represents 42%, Security 24%, DevTools 19%, and Hardware 15% of tracked signals.",
+      signalsSeries: "Signals",
+      verifiedSeries: "Verified",
+      activitySeries: "Activity",
+      days: {
+        mon: "Mon",
+        tue: "Tue",
+        wed: "Wed",
+        thu: "Thu",
+        fri: "Fri",
+        sat: "Sat",
+        sun: "Sun",
+      },
     },
     topics: [
       "AI infrastructure",

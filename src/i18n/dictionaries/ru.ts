@@ -70,8 +70,33 @@ export const ru = {
       subtitle: "Последние приоритетные сигналы из отслеживаемых источников.",
       feedTitle: "Приоритетная лента",
       feedSubtitle: "Проверенная аналитика",
+      hourlyTitle: "Почасовая активность",
+      hourlySubtitle: "Сигналы по часам",
       categoryMixTitle: "Распределение категорий",
       categoryMixSubtitle: "Базовый placeholder",
+    },
+    charts: {
+      signalTrendLabel: "Тренд сигналов и проверенной активности",
+      signalTrendSummary:
+        "Количество сигналов выросло со 142 в понедельник до 224 в воскресенье, а проверенные элементы выросли с 32 до 66.",
+      hourlyActivityLabel: "Почасовая активность сигналов",
+      hourlyActivitySummary:
+        "Почасовая активность достигает пика около середины дня и остаётся высокой во второй половине дня.",
+      categoryDistributionLabel: "Распределение сигналов по категориям",
+      categoryDistributionSummary:
+        "AI занимает 42%, Security 24%, DevTools 19%, Hardware 15% отслеживаемых сигналов.",
+      signalsSeries: "Сигналы",
+      verifiedSeries: "Проверено",
+      activitySeries: "Активность",
+      days: {
+        mon: "Пн",
+        tue: "Вт",
+        wed: "Ср",
+        thu: "Чт",
+        fri: "Пт",
+        sat: "Сб",
+        sun: "Вс",
+      },
     },
     topics: [
       "AI-инфраструктура",
