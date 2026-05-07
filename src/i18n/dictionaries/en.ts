@@ -9,6 +9,24 @@ export const en = {
     switchToDark: "Switch to dark theme",
     switchToLight: "Switch to light theme",
   },
+  command: {
+    title: "Command palette",
+    open: "Open command palette",
+    close: "Close command palette",
+    placeholder: "Search topics, feed, sections, or categories",
+    searchLabel: "Search commands",
+    results: "Command results",
+    empty: "No matching results",
+    shortcut: "⌘K / Ctrl Shift K",
+    jumpToSection: "Jump to section",
+    filterCategory: "Open category analytics",
+    groups: {
+      sections: "Section",
+      topics: "Topic",
+      feed: "Feed",
+      categories: "Category",
+    },
+  },
   sidebar: {
     subtitle: "Intelligence hub",
     nav: {
@@ -29,6 +47,11 @@ export const en = {
     liveStatus: "Live monitoring ready",
     liveStatusDetail: "Local dashboard activity is updating automatically.",
     metricsHeading: "Key metrics",
+    priority: {
+      high: "High",
+      medium: "Medium",
+      low: "Low",
+    },
     metrics: {
       trackedSignals: {
         title: "Tracked Signals",
@@ -81,6 +104,28 @@ export const en = {
         security: "Security",
         devtools: "DevTools",
         hardware: "Hardware",
+      },
+    },
+    intelligence: {
+      title: "Operational intelligence",
+      subtitle:
+        "Contextual summaries from the current dashboard signals and priorities.",
+      cards: {
+        priority: {
+          title: "high-priority signals",
+          description:
+            "Priority feed is concentrated around infrastructure and security signals.",
+        },
+        aiMomentum: {
+          title: "AI infrastructure leads momentum",
+          description:
+            "AI remains the fastest growing category across monitored activity.",
+        },
+        devtoolsSlowdown: {
+          title: "Developer platform activity slowed",
+          description:
+            "DevTools movement is still relevant, but current activity is less urgent.",
+        },
       },
     },
     activity: {
@@ -137,6 +182,7 @@ export const en = {
         title: "AI infrastructure demand continues to accelerate",
         timestamp: "2m ago",
         category: "AI",
+        priority: "high",
         description:
           "New capacity signals detected across cloud and chip vendors.",
       },
@@ -144,12 +190,14 @@ export const en = {
         title: "Security tooling receives elevated enterprise attention",
         timestamp: "11m ago",
         category: "Security",
+        priority: "high",
         description: "Multiple vendor updates point to consolidation pressure.",
       },
       {
         title: "Developer platform consolidation trend detected",
         timestamp: "24m ago",
         category: "DevTools",
+        priority: "medium",
         description:
           "Repository activity and release cadence are moving together.",
       },
@@ -157,6 +205,7 @@ export const en = {
         title: "Semiconductor outlook shows stronger momentum",
         timestamp: "41m ago",
         category: "Hardware",
+        priority: "low",
         description: "Supply-side indicators improved across monitored sources.",
       },
     ],

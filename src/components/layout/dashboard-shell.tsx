@@ -4,6 +4,7 @@ import type { ReactNode } from "react"
 import { useEffect, useState } from "react"
 import { X } from "lucide-react"
 
+import { CommandPalette } from "@/components/command"
 import { Header } from "@/components/layout/header"
 import { Sidebar } from "@/components/layout/sidebar"
 import { Button } from "@/components/ui/button"
@@ -15,7 +16,29 @@ type DashboardShellProps = {
 
 export function DashboardShell({ children }: DashboardShellProps) {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false)
+  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false)
   const { dictionary } = useI18n()
+
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      const isCommandShortcut =
+        event.code === "KeyK" &&
+        ((event.metaKey && !event.ctrlKey && !event.shiftKey) ||
+          (event.ctrlKey && event.shiftKey && !event.metaKey))
+
+      if (isCommandShortcut) {
+        event.preventDefault()
+        event.stopPropagation()
+        setIsCommandPaletteOpen(true)
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown, { capture: true })
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown, { capture: true })
+    }
+  }, [])
 
   useEffect(() => {
     if (!isMobileNavOpen) {
@@ -69,9 +92,19 @@ export function DashboardShell({ children }: DashboardShellProps) {
       )}
 
       <div className="flex min-h-screen flex-col lg:pl-72">
-        <Header onOpenMobileNav={() => setIsMobileNavOpen(true)} />
+        <Header
+          onOpenMobileNav={() => setIsMobileNavOpen(true)}
+          onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
+        />
         <main className="flex-1 px-4 py-6 sm:px-6 lg:px-8">{children}</main>
       </div>
+
+      {isCommandPaletteOpen && (
+        <CommandPalette
+          open={isCommandPaletteOpen}
+          onOpenChange={setIsCommandPaletteOpen}
+        />
+      )}
     </div>
   )
 }

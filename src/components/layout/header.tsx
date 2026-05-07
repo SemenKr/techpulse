@@ -6,14 +6,17 @@ import { useSyncExternalStore } from "react"
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { useI18n } from "@/i18n/i18n-provider"
 
 type HeaderProps = {
   onOpenMobileNav: () => void
+  onOpenCommandPalette: () => void
 }
 
-export function Header({ onOpenMobileNav }: HeaderProps) {
+export function Header({
+  onOpenMobileNav,
+  onOpenCommandPalette,
+}: HeaderProps) {
   const { resolvedTheme, setTheme, theme } = useTheme()
   const { dictionary, locale, setLocale } = useI18n()
   const isMounted = useSyncExternalStore(
@@ -39,23 +42,34 @@ export function Header({ onOpenMobileNav }: HeaderProps) {
         <Menu className="size-5" aria-hidden="true" />
       </Button>
 
-      <form
-        className="relative w-full max-w-md"
-        role="search"
-        onSubmit={(event) => event.preventDefault()}
+      <button
+        type="button"
+        className="relative hidden h-10 w-full max-w-md min-w-0 items-center rounded-md border bg-background px-3 text-left text-sm text-muted-foreground shadow-xs transition-[background-color,border-color] hover:bg-muted/50 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none sm:flex"
+        aria-label={dictionary.command.open}
+        onClick={onOpenCommandPalette}
       >
         <Search
-          className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground"
+          className="mr-2 size-4 text-muted-foreground"
           aria-hidden="true"
         />
-        <Input
-          type="search"
-          placeholder={dictionary.common.searchPlaceholder}
-          className="h-10 pl-9"
-        />
-      </form>
+        <span className="min-w-0 flex-1 truncate">
+          {dictionary.common.searchPlaceholder}
+        </span>
+        <kbd className="ml-3 hidden rounded border bg-muted px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground sm:inline-flex">
+          {dictionary.command.shortcut}
+        </kbd>
+      </button>
 
       <div className="ml-auto flex items-center gap-2">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="sm:hidden"
+          aria-label={dictionary.command.open}
+          onClick={onOpenCommandPalette}
+        >
+          <Search className="size-5" aria-hidden="true" />
+        </Button>
         <Button
           variant="ghost"
           size="sm"
