@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import {
   Activity,
   Cpu,
@@ -22,41 +23,41 @@ import {
 import { DashboardShell } from "@/components/layout"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import {
+  getCategoryMixData,
+  getHourlyActivityChartData,
+  getSignalTrendData,
+  isCategoryFilter,
+  isTimeframe,
+} from "@/features/dashboard/chart-data"
+import {
+  categoryFactors,
+  categoryOptions,
+  timeframeOptions,
+  type CategoryFilter,
+  type Timeframe,
+} from "@/features/dashboard/constants"
 import { useI18n } from "@/i18n/i18n-provider"
 
-const weeklySignalValues = [
-  { dayKey: "mon", signals: 142, verified: 32 },
-  { dayKey: "tue", signals: 168, verified: 41 },
-  { dayKey: "wed", signals: 151, verified: 38 },
-  { dayKey: "thu", signals: 184, verified: 52 },
-  { dayKey: "fri", signals: 213, verified: 61 },
-  { dayKey: "sat", signals: 196, verified: 48 },
-  { dayKey: "sun", signals: 224, verified: 66 },
-] as const
-
-const hourlyActivityData = [
-  { label: "00", activity: 34 },
-  { label: "02", activity: 42 },
-  { label: "04", activity: 38 },
-  { label: "06", activity: 56 },
-  { label: "08", activity: 74 },
-  { label: "10", activity: 88 },
-  { label: "12", activity: 96 },
-  { label: "14", activity: 84 },
-  { label: "16", activity: 91 },
-  { label: "18", activity: 78 },
-  { label: "20", activity: 69 },
-  { label: "22", activity: 51 },
-]
-
 export default function Home() {
+  const [timeframe, setTimeframe] = useState<Timeframe>("7d")
+  const [category, setCategory] = useState<CategoryFilter>("all")
   const { dictionary } = useI18n()
   const dashboard = dictionary.dashboard
-  const signalTrendData = weeklySignalValues.map((item) => ({
-    label: dashboard.charts.days[item.dayKey],
-    signals: item.signals,
-    verified: item.verified,
-  }))
+  const selectedTimeframeLabel = dashboard.controls.timeframes[timeframe]
+  const selectedCategoryLabel = dashboard.controls.categories[category]
+  const categoryFactor = categoryFactors[category]
+  const signalTrendData = getSignalTrendData(
+    timeframe,
+    categoryFactor,
+    dashboard.charts.days,
+    dashboard.charts.weeks
+  )
+  const filteredHourlyActivityData = getHourlyActivityChartData(
+    timeframe,
+    categoryFactor
+  )
   const metrics = [
     {
       title: dashboard.metrics.trackedSignals.title,
@@ -103,12 +104,7 @@ export default function Home() {
       icon: ShieldCheck,
     },
   ]
-  const categoryMix = [
-    { label: dashboard.categories.ai, percentage: 42 },
-    { label: dashboard.categories.security, percentage: 24 },
-    { label: dashboard.categories.devtools, percentage: 19 },
-    { label: dashboard.categories.hardware, percentage: 15 },
-  ]
+  const categoryMix = getCategoryMixData(category, dashboard.categories)
 
   return (
     <DashboardShell>
@@ -154,11 +150,80 @@ export default function Home() {
                 </Button>
               }
             />
+            <section
+              className="rounded-lg border bg-card p-3"
+              aria-labelledby="analytics-controls-heading"
+            >
+              <h3 id="analytics-controls-heading" className="sr-only">
+                {dashboard.controls.title}
+              </h3>
+              <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)]">
+                <div className="min-w-0 space-y-2">
+                  <p
+                    id="timeframe-filter-label"
+                    className="text-xs font-medium text-muted-foreground"
+                  >
+                    {dashboard.controls.timeframeLabel}
+                  </p>
+                  <Tabs
+                    value={timeframe}
+                    onValueChange={(value) => {
+                      if (isTimeframe(value)) {
+                        setTimeframe(value)
+                      }
+                    }}
+                  >
+                    <TabsList
+                      aria-labelledby="timeframe-filter-label"
+                      className="w-full justify-start overflow-x-auto"
+                    >
+                      {timeframeOptions.map((option) => (
+                        <TabsTrigger key={option} value={option}>
+                          {dashboard.controls.timeframes[option]}
+                        </TabsTrigger>
+                      ))}
+                    </TabsList>
+                  </Tabs>
+                </div>
+
+                <div className="min-w-0 space-y-2">
+                  <p
+                    id="category-filter-label"
+                    className="text-xs font-medium text-muted-foreground"
+                  >
+                    {dashboard.controls.categoryLabel}
+                  </p>
+                  <Tabs
+                    value={category}
+                    onValueChange={(value) => {
+                      if (isCategoryFilter(value)) {
+                        setCategory(value)
+                      }
+                    }}
+                  >
+                    <TabsList
+                      aria-labelledby="category-filter-label"
+                      className="w-full justify-start overflow-x-auto"
+                    >
+                      {categoryOptions.map((option) => (
+                        <TabsTrigger key={option} value={option}>
+                          {dashboard.controls.categories[option]}
+                        </TabsTrigger>
+                      ))}
+                    </TabsList>
+                  </Tabs>
+                </div>
+              </div>
+            </section>
 
             <ChartCard
               title={dashboard.analytics.activityTitle}
               subtitle={dashboard.analytics.activitySubtitle}
-              actions={<Badge variant="outline">{dashboard.analytics.range}</Badge>}
+              actions={
+                <Badge variant="outline">
+                  {selectedTimeframeLabel} · {selectedCategoryLabel}
+                </Badge>
+              }
             >
               <AnalyticsLineChart
                 data={signalTrendData}
@@ -207,9 +272,10 @@ export default function Home() {
             <ChartCard
               title={dashboard.activity.hourlyTitle}
               subtitle={dashboard.activity.hourlySubtitle}
+              actions={<Badge variant="outline">{selectedTimeframeLabel}</Badge>}
             >
               <ActivityBarChart
-                data={hourlyActivityData}
+                data={filteredHourlyActivityData}
                 ariaLabel={dashboard.charts.hourlyActivityLabel}
                 summary={dashboard.charts.hourlyActivitySummary}
                 activityLabel={dashboard.charts.activitySeries}
@@ -218,6 +284,7 @@ export default function Home() {
             <ChartCard
               title={dashboard.activity.categoryMixTitle}
               subtitle={dashboard.activity.categoryMixSubtitle}
+              actions={<Badge variant="outline">{selectedCategoryLabel}</Badge>}
             >
               <CategoryDistributionChart
                 data={categoryMix}

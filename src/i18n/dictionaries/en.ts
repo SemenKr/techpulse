@@ -65,6 +65,23 @@ export const en = {
       trendingTitle: "Trending topics",
       trendingSubtitle: "Current focus areas",
     },
+    controls: {
+      title: "Analytics controls",
+      timeframeLabel: "Timeframe",
+      categoryLabel: "Category",
+      timeframes: {
+        "24h": "24h",
+        "7d": "7d",
+        "30d": "30d",
+      },
+      categories: {
+        all: "All",
+        ai: "AI",
+        security: "Security",
+        devtools: "DevTools",
+        hardware: "Hardware",
+      },
+    },
     activity: {
       title: "Realtime activity",
       subtitle: "Recent priority signals from monitored sources.",
@@ -78,13 +95,13 @@ export const en = {
     charts: {
       signalTrendLabel: "Signal and verified activity trend",
       signalTrendSummary:
-        "Signals increased from 142 on Monday to 224 on Sunday, while verified items rose from 32 to 66.",
+        "The chart compares total signals with verified items for the selected timeframe and category.",
       hourlyActivityLabel: "Hourly signal activity",
       hourlyActivitySummary:
-        "Hourly activity peaks around midday and stays elevated through the afternoon.",
+        "The chart shows local signal activity distribution across the selected timeframe and category.",
       categoryDistributionLabel: "Signal distribution by category",
       categoryDistributionSummary:
-        "AI represents 42%, Security 24%, DevTools 19%, and Hardware 15% of tracked signals.",
+        "The chart shows the visible category distribution after applying the selected filter.",
       signalsSeries: "Signals",
       verifiedSeries: "Verified",
       activitySeries: "Activity",
@@ -96,6 +113,12 @@ export const en = {
         fri: "Fri",
         sat: "Sat",
         sun: "Sun",
+      },
+      weeks: {
+        w1: "W1",
+        w2: "W2",
+        w3: "W3",
+        w4: "W4",
       },
     },
     topics: [
