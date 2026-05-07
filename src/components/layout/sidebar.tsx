@@ -25,7 +25,11 @@ const navItems = [
   { title: "Settings", href: "/settings", icon: Settings },
 ]
 
-export function Sidebar() {
+type SidebarProps = {
+  onNavigate?: () => void
+}
+
+export function Sidebar({ onNavigate }: SidebarProps) {
   const pathname = usePathname()
 
   return (
@@ -51,6 +55,7 @@ export function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
+              onClick={onNavigate}
               aria-current={isActive ? "page" : undefined}
               className={cn(
                 "flex h-10 items-center gap-3 rounded-md px-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",

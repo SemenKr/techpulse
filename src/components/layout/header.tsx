@@ -1,35 +1,52 @@
-import { Bell, Menu, Search } from "lucide-react"
+"use client"
+
+import { useState } from "react"
+import { Bell, Menu, Search, X } from "lucide-react"
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import {
-  Sheet,
-  SheetContent,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet"
 import { Sidebar } from "@/components/layout/sidebar"
 
 export function Header() {
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false)
+
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b bg-background/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/80 lg:px-6">
-      <Sheet>
-        <SheetTrigger asChild>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="lg:hidden"
-            aria-label="Open navigation"
-          >
-            <Menu className="size-5" aria-hidden="true" />
-          </Button>
-        </SheetTrigger>
-        <SheetContent side="left" className="w-72 p-0">
-          <SheetTitle className="sr-only">Navigation</SheetTitle>
-          <Sidebar />
-        </SheetContent>
-      </Sheet>
+      <Button
+        variant="ghost"
+        size="icon"
+        className="lg:hidden"
+        aria-label="Open navigation"
+        aria-expanded={isMobileNavOpen}
+        onClick={() => setIsMobileNavOpen(true)}
+      >
+        <Menu className="size-5" aria-hidden="true" />
+      </Button>
+
+      {isMobileNavOpen && (
+        <div className="fixed inset-0 z-50 lg:hidden">
+          <button
+            type="button"
+            className="absolute inset-0 bg-black/10"
+            aria-label="Close navigation"
+            onClick={() => setIsMobileNavOpen(false)}
+          />
+          <div className="relative h-full w-72 bg-sidebar shadow-lg">
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              className="absolute top-4 right-4 z-10"
+              aria-label="Close navigation"
+              onClick={() => setIsMobileNavOpen(false)}
+            >
+              <X className="size-4" aria-hidden="true" />
+            </Button>
+            <h2 className="sr-only">Navigation</h2>
+            <Sidebar onNavigate={() => setIsMobileNavOpen(false)} />
+          </div>
+        </div>
+      )}
 
       <div className="relative w-full max-w-md">
         <Search
