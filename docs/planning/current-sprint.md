@@ -6,19 +6,28 @@ Build and stabilize the dashboard UI foundation before adding product complexity
 
 ## Scope
 
-* Dashboard UI foundation.
-* Reusable dashboard components when they are clearly needed.
-* Layout system.
-* Visual consistency.
-* Strict `src` architecture.
+* [x] Dashboard UI foundation.
+* [x] Reusable dashboard components when they are clearly needed.
+* [x] Layout system.
+* [x] Visual consistency.
+* [x] Strict `src` architecture.
+* [x] Practical semantic HTML and accessibility baseline.
 
 ## Active Priorities
 
-* Responsive dashboard layout.
-* Sidebar and header consistency.
-* Clean spacing and typography.
-* Small readable components.
-* Passing lint, typecheck, and build.
+* [x] Responsive dashboard layout.
+* [x] Sidebar and header consistency.
+* [x] Clean spacing and typography.
+* [x] Small readable components.
+* [x] Passing lint, typecheck, and build.
+
+## Done
+
+* Reusable dashboard widgets: metric, chart, feed, and section header.
+* Dashboard page composition with metrics, analytics placeholders, trending topics, and realtime activity.
+* Mobile sidebar open, close, Escape handling, and lightweight animation.
+* Semantic structure: main, header, aside, nav, section, article, lists, and heading hierarchy.
+* Project governance for strict `src`, planning-first workflow, semantic HTML, and accessibility rules.
 
 ## Out Of Scope
 

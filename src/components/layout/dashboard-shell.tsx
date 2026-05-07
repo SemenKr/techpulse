@@ -7,6 +7,7 @@ import { X } from "lucide-react"
 import { Header } from "@/components/layout/header"
 import { Sidebar } from "@/components/layout/sidebar"
 import { Button } from "@/components/ui/button"
+import { useI18n } from "@/i18n/i18n-provider"
 
 type DashboardShellProps = {
   children: ReactNode
@@ -14,6 +15,7 @@ type DashboardShellProps = {
 
 export function DashboardShell({ children }: DashboardShellProps) {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false)
+  const { dictionary } = useI18n()
 
   useEffect(() => {
     if (!isMobileNavOpen) {
@@ -44,7 +46,7 @@ export function DashboardShell({ children }: DashboardShellProps) {
           <button
             type="button"
             className="absolute inset-0 bg-black/15 animate-in fade-in-0 duration-200"
-            aria-label="Close navigation"
+            aria-label={dictionary.common.closeNavigation}
             onClick={() => setIsMobileNavOpen(false)}
           />
           <aside
@@ -55,7 +57,7 @@ export function DashboardShell({ children }: DashboardShellProps) {
               variant="ghost"
               size="icon-sm"
               className="absolute top-4 right-4 z-10 transition-transform hover:scale-105"
-              aria-label="Close navigation"
+              aria-label={dictionary.common.closeNavigation}
               onClick={() => setIsMobileNavOpen(false)}
             >
               <X className="size-4" aria-hidden="true" />

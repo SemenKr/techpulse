@@ -14,15 +14,29 @@ import {
 } from "lucide-react"
 
 import { cn } from "@/lib/utils"
+import { useI18n } from "@/i18n/i18n-provider"
 
-const navItems = [
-  { title: "Overview", href: "/", icon: LayoutDashboard },
-  { title: "Live Feed", href: "/live", icon: Radio },
-  { title: "Signals", href: "/signals", icon: Activity },
-  { title: "Analytics", href: "/analytics", icon: BarChart3 },
-  { title: "Alerts", href: "/alerts", icon: Bell },
-  { title: "Search", href: "/search", icon: Search },
-  { title: "Settings", href: "/settings", icon: Settings },
+type NavKey =
+  | "overview"
+  | "live"
+  | "signals"
+  | "analytics"
+  | "alerts"
+  | "search"
+  | "settings"
+
+const navItems: Array<{
+  key: NavKey
+  href: string
+  icon: typeof LayoutDashboard
+}> = [
+  { key: "overview", href: "/", icon: LayoutDashboard },
+  { key: "live", href: "/live", icon: Radio },
+  { key: "signals", href: "/signals", icon: Activity },
+  { key: "analytics", href: "/analytics", icon: BarChart3 },
+  { key: "alerts", href: "/alerts", icon: Bell },
+  { key: "search", href: "/search", icon: Search },
+  { key: "settings", href: "/settings", icon: Settings },
 ]
 
 type SidebarProps = {
@@ -31,6 +45,7 @@ type SidebarProps = {
 
 export function Sidebar({ onNavigate }: SidebarProps) {
   const pathname = usePathname()
+  const { dictionary } = useI18n()
 
   return (
     <aside className="flex h-full flex-col border-r bg-sidebar text-sidebar-foreground">
@@ -41,7 +56,7 @@ export function Sidebar({ onNavigate }: SidebarProps) {
         <div className="min-w-0">
           <p className="truncate text-sm font-semibold">TechPulse</p>
           <p className="truncate text-xs text-muted-foreground">
-            Intelligence hub
+            {dictionary.sidebar.subtitle}
           </p>
         </div>
       </div>
@@ -51,6 +66,7 @@ export function Sidebar({ onNavigate }: SidebarProps) {
           {navItems.map((item) => {
             const Icon = item.icon
             const isActive = pathname === item.href
+            const title = dictionary.sidebar.nav[item.key]
 
             return (
               <li key={item.href}>
@@ -65,7 +81,7 @@ export function Sidebar({ onNavigate }: SidebarProps) {
                   )}
                 >
                   <Icon className="size-4" aria-hidden="true" />
-                  <span>{item.title}</span>
+                  <span>{title}</span>
                 </Link>
               </li>
             )
