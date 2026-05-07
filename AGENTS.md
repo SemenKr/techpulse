@@ -180,6 +180,19 @@ lib
 
 ---
 
+## Semantic HTML and Accessibility Rules
+
+* Prefer semantic HTML over generic div wrappers.
+* Use native HTML elements before ARIA roles.
+* Maintain proper heading hierarchy.
+* Interactive elements must have accessible labels.
+* Navigation areas should use semantic `nav` landmarks.
+* Use `section` and `article` landmarks where they improve structure clarity.
+* Avoid unnecessary ARIA usage when native semantics already solve the problem.
+* Accessibility improvements should remain lightweight and practical.
+
+---
+
 ## Code Rules
 
 * Use TypeScript strictly

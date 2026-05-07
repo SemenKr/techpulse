@@ -4,7 +4,6 @@ import { ArrowDownRight, ArrowUpRight, Minus } from "lucide-react"
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -46,12 +45,14 @@ export function MetricCard({
   const TrendIcon = trendIcons[trend.direction]
 
   return (
-    <Card size="sm" className="rounded-lg">
+    <Card as="article" size="sm" className="rounded-lg">
       <CardHeader>
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <CardDescription>{title}</CardDescription>
-            <CardTitle className="mt-2 text-2xl">{value}</CardTitle>
+            <CardTitle as="h3">{title}</CardTitle>
+            <p className="mt-2 text-2xl font-semibold tracking-tight">
+              {value}
+            </p>
           </div>
           {Icon && (
             <div className="flex size-9 items-center justify-center rounded-md bg-muted text-foreground">

@@ -22,12 +22,12 @@ export function ChartCard({
   children,
 }: ChartCardProps) {
   return (
-    <Card className="rounded-lg">
+    <Card as="section" className="rounded-lg">
       <CardHeader>
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div>
             {subtitle && <CardDescription>{subtitle}</CardDescription>}
-            <CardTitle>{title}</CardTitle>
+            <CardTitle as="h3">{title}</CardTitle>
           </div>
           {actions && <div className="shrink-0">{actions}</div>}
         </div>

@@ -47,7 +47,10 @@ export function DashboardShell({ children }: DashboardShellProps) {
             aria-label="Close navigation"
             onClick={() => setIsMobileNavOpen(false)}
           />
-          <div className="relative h-full w-72 bg-sidebar shadow-lg animate-in slide-in-from-left-8 duration-200 ease-out">
+          <aside
+            className="relative h-full w-72 bg-sidebar shadow-lg animate-in slide-in-from-left-8 duration-200 ease-out"
+            aria-label="Mobile navigation"
+          >
             <Button
               variant="ghost"
               size="icon-sm"
@@ -59,7 +62,7 @@ export function DashboardShell({ children }: DashboardShellProps) {
             </Button>
             <h2 className="sr-only">Navigation</h2>
             <Sidebar onNavigate={() => setIsMobileNavOpen(false)} />
-          </div>
+          </aside>
         </div>
       )}
 

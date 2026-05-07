@@ -2,13 +2,19 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
+type CardElement = "div" | "article" | "section"
+
 function Card({
+  as: Comp = "div",
   className,
   size = "default",
   ...props
-}: React.ComponentProps<"div"> & { size?: "default" | "sm" }) {
+}: React.ComponentProps<"div"> & {
+  as?: CardElement
+  size?: "default" | "sm"
+}) {
   return (
-    <div
+    <Comp
       data-slot="card"
       data-size={size}
       className={cn(
@@ -20,9 +26,9 @@ function Card({
   )
 }
 
-function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
+function CardHeader({ className, ...props }: React.ComponentProps<"header">) {
   return (
-    <div
+    <header
       data-slot="card-header"
       className={cn(
         "group/card-header @container/card-header grid auto-rows-min items-start gap-1 rounded-t-xl px-6 group-data-[size=sm]/card:px-4 has-data-[slot=card-action]:grid-cols-[1fr_auto] has-data-[slot=card-description]:grid-rows-[auto_auto] [.border-b]:pb-6 group-data-[size=sm]/card:[.border-b]:pb-4",
@@ -33,9 +39,15 @@ function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
   )
 }
 
-function CardTitle({ className, ...props }: React.ComponentProps<"div">) {
+type CardTitleElement = "div" | "h3"
+
+function CardTitle({
+  as: Comp = "div",
+  className,
+  ...props
+}: React.ComponentProps<"div"> & { as?: CardTitleElement }) {
   return (
-    <div
+    <Comp
       data-slot="card-title"
       className={cn(
         "font-heading text-base leading-normal font-medium group-data-[size=sm]/card:text-sm",

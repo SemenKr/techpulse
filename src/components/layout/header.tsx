@@ -23,7 +23,7 @@ export function Header({ onOpenMobileNav }: HeaderProps) {
         <Menu className="size-5" aria-hidden="true" />
       </Button>
 
-      <div className="relative w-full max-w-md">
+      <form className="relative w-full max-w-md" role="search">
         <Search
           className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground"
           aria-hidden="true"
@@ -33,7 +33,7 @@ export function Header({ onOpenMobileNav }: HeaderProps) {
           placeholder="Search signals, sources, or topics"
           className="h-10 pl-9"
         />
-      </div>
+      </form>
 
       <div className="ml-auto flex items-center gap-2">
         <Button variant="ghost" size="icon" aria-label="Notifications">

@@ -88,8 +88,8 @@ const feedItems = [
 export default function Home() {
   return (
     <DashboardShell>
-      <section className="space-y-6">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+      <div className="space-y-6">
+        <header className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="text-sm font-medium text-muted-foreground">
               Real-time overview
@@ -106,17 +106,23 @@ export default function Home() {
             <span className="size-2 rounded-full bg-emerald-500" />
             Live monitoring ready
           </div>
-        </div>
+        </header>
 
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <section aria-labelledby="metrics-heading">
+          <h2 id="metrics-heading" className="sr-only">
+            Key metrics
+          </h2>
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {metrics.map((metric) => (
             <MetricCard key={metric.title} {...metric} />
           ))}
-        </div>
+          </div>
+        </section>
 
         <div className="grid gap-4 xl:grid-cols-[minmax(0,1.45fr)_minmax(320px,1fr)]">
-          <div className="space-y-4">
+          <section className="space-y-4" aria-labelledby="analytics-heading">
             <SectionHeader
+              id="analytics-heading"
               title="Analytics"
               subtitle="Signal movement and topic concentration across watched technology categories."
               actions={
@@ -143,29 +149,29 @@ export default function Home() {
             </ChartCard>
 
             <ChartCard title="Trending topics" subtitle="Current focus areas">
-              <div className="grid gap-3 sm:grid-cols-2">
+              <ul className="grid gap-3 sm:grid-cols-2">
                 {trendingTopics.map((topic, index) => (
-                  <div
-                    key={topic}
-                    className="flex items-center justify-between rounded-md border p-3"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="flex size-8 items-center justify-center rounded-md bg-muted">
-                        <Cpu className="size-4" aria-hidden="true" />
+                  <li key={topic}>
+                    <article className="flex items-center justify-between rounded-md border p-3">
+                      <div className="flex items-center gap-3">
+                        <div className="flex size-8 items-center justify-center rounded-md bg-muted">
+                          <Cpu className="size-4" aria-hidden="true" />
+                        </div>
+                        <h4 className="text-sm font-medium">{topic}</h4>
                       </div>
-                      <span className="text-sm font-medium">{topic}</span>
-                    </div>
-                    <span className="text-sm text-muted-foreground">
-                      #{index + 1}
-                    </span>
-                  </div>
+                      <span className="text-sm text-muted-foreground">
+                        #{index + 1}
+                      </span>
+                    </article>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </ChartCard>
-          </div>
+          </section>
 
-          <div className="space-y-4">
+          <section className="space-y-4" aria-labelledby="activity-heading">
             <SectionHeader
+              id="activity-heading"
               title="Realtime activity"
               subtitle="Recent priority signals from monitored sources."
             />
@@ -175,14 +181,14 @@ export default function Home() {
               items={feedItems}
             />
             <ChartCard title="Category mix" subtitle="Placeholder breakdown">
-              <div className="space-y-3">
+              <ul className="space-y-3">
                 {[
                   ["AI", "42%"],
                   ["Security", "24%"],
                   ["DevTools", "19%"],
                   ["Hardware", "15%"],
                 ].map(([label, value]) => (
-                  <div key={label} className="space-y-1.5">
+                  <li key={label} className="space-y-1.5">
                     <div className="flex items-center justify-between text-sm">
                       <span>{label}</span>
                       <span className="text-muted-foreground">{value}</span>
@@ -193,13 +199,13 @@ export default function Home() {
                         style={{ width: value }}
                       />
                     </div>
-                  </div>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </ChartCard>
-          </div>
+          </section>
         </div>
-      </section>
+      </div>
     </DashboardShell>
   )
 }
