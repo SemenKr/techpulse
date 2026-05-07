@@ -14,16 +14,49 @@ import {
   MetricCard,
   SectionHeader,
 } from "@/components/dashboard"
+import {
+  ActivityBarChart,
+  AnalyticsLineChart,
+  CategoryDistributionChart,
+} from "@/components/charts"
 import { DashboardShell } from "@/components/layout"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { useI18n } from "@/i18n/i18n-provider"
 
-const chartBars = [38, 54, 46, 62, 71, 58, 83, 76, 91, 68, 79, 88]
+const weeklySignalValues = [
+  { dayKey: "mon", signals: 142, verified: 32 },
+  { dayKey: "tue", signals: 168, verified: 41 },
+  { dayKey: "wed", signals: 151, verified: 38 },
+  { dayKey: "thu", signals: 184, verified: 52 },
+  { dayKey: "fri", signals: 213, verified: 61 },
+  { dayKey: "sat", signals: 196, verified: 48 },
+  { dayKey: "sun", signals: 224, verified: 66 },
+] as const
+
+const hourlyActivityData = [
+  { label: "00", activity: 34 },
+  { label: "02", activity: 42 },
+  { label: "04", activity: 38 },
+  { label: "06", activity: 56 },
+  { label: "08", activity: 74 },
+  { label: "10", activity: 88 },
+  { label: "12", activity: 96 },
+  { label: "14", activity: 84 },
+  { label: "16", activity: 91 },
+  { label: "18", activity: 78 },
+  { label: "20", activity: 69 },
+  { label: "22", activity: 51 },
+]
 
 export default function Home() {
   const { dictionary } = useI18n()
   const dashboard = dictionary.dashboard
+  const signalTrendData = weeklySignalValues.map((item) => ({
+    label: dashboard.charts.days[item.dayKey],
+    signals: item.signals,
+    verified: item.verified,
+  }))
   const metrics = [
     {
       title: dashboard.metrics.trackedSignals.title,
@@ -71,10 +104,10 @@ export default function Home() {
     },
   ]
   const categoryMix = [
-    [dashboard.categories.ai, "42%"],
-    [dashboard.categories.security, "24%"],
-    [dashboard.categories.devtools, "19%"],
-    [dashboard.categories.hardware, "15%"],
+    { label: dashboard.categories.ai, percentage: 42 },
+    { label: dashboard.categories.security, percentage: 24 },
+    { label: dashboard.categories.devtools, percentage: 19 },
+    { label: dashboard.categories.hardware, percentage: 15 },
   ]
 
   return (
@@ -127,15 +160,13 @@ export default function Home() {
               subtitle={dashboard.analytics.activitySubtitle}
               actions={<Badge variant="outline">{dashboard.analytics.range}</Badge>}
             >
-              <div className="grid h-72 grid-cols-12 items-end gap-2">
-                {chartBars.map((height, index) => (
-                  <div
-                    key={`${height}-${index}`}
-                    className="rounded-t-md bg-primary/80 transition-colors hover:bg-primary"
-                    style={{ height: `${height}%` }}
-                  />
-                ))}
-              </div>
+              <AnalyticsLineChart
+                data={signalTrendData}
+                ariaLabel={dashboard.charts.signalTrendLabel}
+                summary={dashboard.charts.signalTrendSummary}
+                signalsLabel={dashboard.charts.signalsSeries}
+                verifiedLabel={dashboard.charts.verifiedSeries}
+              />
             </ChartCard>
 
             <ChartCard
@@ -174,25 +205,25 @@ export default function Home() {
               items={dashboard.feed}
             />
             <ChartCard
+              title={dashboard.activity.hourlyTitle}
+              subtitle={dashboard.activity.hourlySubtitle}
+            >
+              <ActivityBarChart
+                data={hourlyActivityData}
+                ariaLabel={dashboard.charts.hourlyActivityLabel}
+                summary={dashboard.charts.hourlyActivitySummary}
+                activityLabel={dashboard.charts.activitySeries}
+              />
+            </ChartCard>
+            <ChartCard
               title={dashboard.activity.categoryMixTitle}
               subtitle={dashboard.activity.categoryMixSubtitle}
             >
-              <ul className="space-y-3">
-                {categoryMix.map(([label, value]) => (
-                  <li key={label} className="space-y-1.5">
-                    <div className="flex items-center justify-between text-sm">
-                      <span>{label}</span>
-                      <span className="text-muted-foreground">{value}</span>
-                    </div>
-                    <div className="h-2 rounded-full bg-muted">
-                      <div
-                        className="h-full rounded-full bg-primary"
-                        style={{ width: value }}
-                      />
-                    </div>
-                  </li>
-                ))}
-              </ul>
+              <CategoryDistributionChart
+                data={categoryMix}
+                ariaLabel={dashboard.charts.categoryDistributionLabel}
+                summary={dashboard.charts.categoryDistributionSummary}
+              />
             </ChartCard>
           </section>
         </div>
