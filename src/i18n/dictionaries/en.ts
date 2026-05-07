@@ -27,6 +27,7 @@ export const en = {
     description:
       "Monitor technology signals, live updates, and emerging trends from one operational workspace.",
     liveStatus: "Live monitoring ready",
+    liveStatusDetail: "Local dashboard activity is updating automatically.",
     metricsHeading: "Key metrics",
     metrics: {
       trackedSignals: {
@@ -87,6 +88,8 @@ export const en = {
       subtitle: "Recent priority signals from monitored sources.",
       feedTitle: "Priority feed",
       feedSubtitle: "Verified intelligence",
+      liveUpdateLabel: "Live",
+      updatedNow: "updated now",
       hourlyTitle: "Hourly activity",
       hourlySubtitle: "Signals by hour",
       categoryMixTitle: "Category mix",

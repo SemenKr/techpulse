@@ -27,6 +27,7 @@ export const ru = {
     description:
       "Отслеживайте технологические сигналы, live-обновления и новые тренды в одном рабочем пространстве.",
     liveStatus: "Мониторинг активен",
+    liveStatusDetail: "Локальная активность дашборда обновляется автоматически.",
     metricsHeading: "Ключевые метрики",
     metrics: {
       trackedSignals: {
@@ -87,6 +88,8 @@ export const ru = {
       subtitle: "Последние приоритетные сигналы из отслеживаемых источников.",
       feedTitle: "Приоритетная лента",
       feedSubtitle: "Проверенная аналитика",
+      liveUpdateLabel: "Live",
+      updatedNow: "обновлено сейчас",
       hourlyTitle: "Почасовая активность",
       hourlySubtitle: "Сигналы по часам",
       categoryMixTitle: "Распределение категорий",

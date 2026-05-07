@@ -50,6 +50,9 @@ export function CategoryDistributionChart({
                 paddingAngle={2}
                 stroke="var(--card)"
                 strokeWidth={3}
+                animationDuration={450}
+                animationEasing="ease-out"
+                isAnimationActive
               >
                 {data.map((item, index) => (
                   <Cell

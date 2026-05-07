@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import {
   Activity,
   Cpu,
@@ -43,7 +43,8 @@ import { useI18n } from "@/i18n/i18n-provider"
 export default function Home() {
   const [timeframe, setTimeframe] = useState<Timeframe>("7d")
   const [category, setCategory] = useState<CategoryFilter>("all")
-  const { dictionary } = useI18n()
+  const [liveTick, setLiveTick] = useState(0)
+  const { dictionary, locale } = useI18n()
   const dashboard = dictionary.dashboard
   const selectedTimeframeLabel = dashboard.controls.timeframes[timeframe]
   const selectedCategoryLabel = dashboard.controls.categories[category]
@@ -53,15 +54,32 @@ export default function Home() {
     categoryFactor,
     dashboard.charts.days,
     dashboard.charts.weeks
-  )
+  ).map((item, index) => ({
+    ...item,
+    signals: applyLiveDelta(item.signals, liveTick, index, 2),
+    verified: applyLiveDelta(item.verified, liveTick, index, 1),
+  }))
   const filteredHourlyActivityData = getHourlyActivityChartData(
     timeframe,
     categoryFactor
-  )
+  ).map((item, index) => ({
+    ...item,
+    activity: applyLiveDelta(item.activity, liveTick, index, 2),
+  }))
+  const rotatedFeed = rotateItems(dashboard.feed, liveTick)
+
+  useEffect(() => {
+    const intervalId = window.setInterval(() => {
+      setLiveTick((currentTick) => (currentTick + 1) % 24)
+    }, 6500)
+
+    return () => window.clearInterval(intervalId)
+  }, [])
+
   const metrics = [
     {
       title: dashboard.metrics.trackedSignals.title,
-      value: "1,248",
+      value: formatMetricValue(1248 + (liveTick % 4), locale),
       description: dashboard.metrics.trackedSignals.description,
       trend: {
         value: dashboard.metrics.trackedSignals.trend,
@@ -72,7 +90,7 @@ export default function Home() {
     },
     {
       title: dashboard.metrics.liveSources.title,
-      value: "86",
+      value: String(86 + (liveTick % 2)),
       description: dashboard.metrics.liveSources.description,
       trend: {
         value: dashboard.metrics.liveSources.trend,
@@ -83,7 +101,7 @@ export default function Home() {
     },
     {
       title: dashboard.metrics.marketMomentum.title,
-      value: "+18%",
+      value: `+${18 + (liveTick % 3)}%`,
       description: dashboard.metrics.marketMomentum.description,
       trend: {
         value: dashboard.metrics.marketMomentum.trend,
@@ -94,7 +112,7 @@ export default function Home() {
     },
     {
       title: dashboard.metrics.verifiedAlerts.title,
-      value: "24",
+      value: String(24 + (liveTick % 2)),
       description: dashboard.metrics.verifiedAlerts.description,
       trend: {
         value: dashboard.metrics.verifiedAlerts.trend,
@@ -121,9 +139,17 @@ export default function Home() {
               {dashboard.description}
             </p>
           </div>
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <span className="size-2 rounded-full bg-emerald-500" />
-            {dashboard.liveStatus}
+          <div
+            className="flex items-center gap-2 text-sm text-muted-foreground"
+            role="status"
+            aria-live="polite"
+          >
+            <span className="relative flex size-2.5" aria-hidden="true">
+              <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-500 opacity-25" />
+              <span className="relative inline-flex size-2.5 rounded-full bg-emerald-500" />
+            </span>
+            <span>{dashboard.liveStatus}</span>
+            <span className="sr-only">{dashboard.liveStatusDetail}</span>
           </div>
         </header>
 
@@ -267,7 +293,12 @@ export default function Home() {
             <FeedCard
               title={dashboard.activity.feedTitle}
               subtitle={dashboard.activity.feedSubtitle}
-              items={dashboard.feed}
+              items={rotatedFeed.map((item, index) => ({
+                ...item,
+                timestamp:
+                  index === 0 ? dashboard.activity.updatedNow : item.timestamp,
+              }))}
+              liveUpdateLabel={dashboard.activity.liveUpdateLabel}
             />
             <ChartCard
               title={dashboard.activity.hourlyTitle}
@@ -297,4 +328,27 @@ export default function Home() {
       </div>
     </DashboardShell>
   )
+}
+
+function applyLiveDelta(
+  value: number,
+  liveTick: number,
+  index: number,
+  maxDelta: number
+) {
+  return value + ((liveTick + index) % (maxDelta + 1))
+}
+
+function rotateItems<T>(items: T[], liveTick: number) {
+  if (items.length === 0) {
+    return items
+  }
+
+  const offset = liveTick % items.length
+
+  return [...items.slice(offset), ...items.slice(0, offset)]
+}
+
+function formatMetricValue(value: number, locale: string) {
+  return new Intl.NumberFormat(locale).format(value)
 }

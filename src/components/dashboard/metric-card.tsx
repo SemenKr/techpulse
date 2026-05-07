@@ -50,12 +50,12 @@ export function MetricCard({
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             <CardTitle as="h3">{title}</CardTitle>
-            <p className="mt-2 text-2xl font-semibold tracking-tight">
+            <p className="mt-2 text-2xl font-semibold tracking-tight transition-colors duration-300">
               {value}
             </p>
           </div>
           {Icon && (
-            <div className="flex size-9 items-center justify-center rounded-md bg-muted text-foreground">
+            <div className="flex size-9 items-center justify-center rounded-md bg-muted text-foreground transition-colors duration-300">
               <Icon className="size-4" aria-hidden />
             </div>
           )}

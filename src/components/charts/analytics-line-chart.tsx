@@ -78,6 +78,9 @@ export function AnalyticsLineChart({
               strokeWidth={2}
               dot={false}
               activeDot={{ r: 4 }}
+              animationDuration={450}
+              animationEasing="ease-out"
+              isAnimationActive
             />
             <Line
               type="monotone"
@@ -87,6 +90,9 @@ export function AnalyticsLineChart({
               strokeWidth={2}
               dot={false}
               activeDot={{ r: 4 }}
+              animationDuration={450}
+              animationEasing="ease-out"
+              isAnimationActive
             />
           </LineChart>
         </ResponsiveContainer>

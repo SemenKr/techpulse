@@ -72,6 +72,9 @@ export function ActivityBarChart({
               name={activityLabel}
               fill="var(--primary)"
               radius={[4, 4, 0, 0]}
+              animationDuration={450}
+              animationEasing="ease-out"
+              isAnimationActive
             />
           </BarChart>
         </ResponsiveContainer>
