@@ -23,7 +23,9 @@ export function Header({ onOpenMobileNav }: HeaderProps) {
   )
   const isDarkTheme = resolvedTheme === "dark"
   const nextTheme = getNextTheme(theme)
-  const themeLabel = getThemeLabel(nextTheme, dictionary.common)
+  const themeLabel = isMounted
+    ? getThemeLabel(nextTheme, dictionary.common)
+    : dictionary.common.switchToSystem
 
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b bg-background/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/80 lg:px-6">
