@@ -9,6 +9,24 @@ export const ru = {
     switchToDark: "Переключить на тёмную тему",
     switchToLight: "Переключить на светлую тему",
   },
+  command: {
+    title: "Командная палитра",
+    open: "Открыть командную палитру",
+    close: "Закрыть командную палитру",
+    placeholder: "Поиск тем, ленты, разделов или категорий",
+    searchLabel: "Поиск команд",
+    results: "Результаты команд",
+    empty: "Ничего не найдено",
+    shortcut: "⌘K / Ctrl Shift K",
+    jumpToSection: "Перейти к разделу",
+    filterCategory: "Открыть аналитику категории",
+    groups: {
+      sections: "Раздел",
+      topics: "Тема",
+      feed: "Лента",
+      categories: "Категория",
+    },
+  },
   sidebar: {
     subtitle: "Центр аналитики",
     nav: {
@@ -29,6 +47,11 @@ export const ru = {
     liveStatus: "Мониторинг активен",
     liveStatusDetail: "Локальная активность дашборда обновляется автоматически.",
     metricsHeading: "Ключевые метрики",
+    priority: {
+      high: "Высокий",
+      medium: "Средний",
+      low: "Низкий",
+    },
     metrics: {
       trackedSignals: {
         title: "Отслеживаемые сигналы",
@@ -81,6 +104,28 @@ export const ru = {
         security: "Security",
         devtools: "DevTools",
         hardware: "Hardware",
+      },
+    },
+    intelligence: {
+      title: "Операционная аналитика",
+      subtitle:
+        "Контекстные выводы на основе текущих сигналов и приоритетов дашборда.",
+      cards: {
+        priority: {
+          title: "сигнала высокого приоритета",
+          description:
+            "Приоритетная лента сконцентрирована вокруг infrastructure и security-сигналов.",
+        },
+        aiMomentum: {
+          title: "AI-инфраструктура лидирует по импульсу",
+          description:
+            "AI остаётся самой быстрорастущей категорией в отслеживаемой активности.",
+        },
+        devtoolsSlowdown: {
+          title: "Активность developer-платформ замедлилась",
+          description:
+            "DevTools остаётся важной темой, но текущая активность менее срочная.",
+        },
       },
     },
     activity: {
@@ -137,6 +182,7 @@ export const ru = {
         title: "Спрос на AI-инфраструктуру продолжает ускоряться",
         timestamp: "2 мин назад",
         category: "AI",
+        priority: "high",
         description:
           "Новые capacity-сигналы обнаружены у cloud- и chip-поставщиков.",
       },
@@ -144,12 +190,14 @@ export const ru = {
         title: "Security-инструменты получают больше внимания enterprise",
         timestamp: "11 мин назад",
         category: "Security",
+        priority: "high",
         description: "Обновления вендоров указывают на давление консолидации.",
       },
       {
         title: "Обнаружен тренд консолидации developer-платформ",
         timestamp: "24 мин назад",
         category: "DevTools",
+        priority: "medium",
         description:
           "Активность репозиториев и темп релизов начинают двигаться синхронно.",
       },
@@ -157,6 +205,7 @@ export const ru = {
         title: "Прогноз по полупроводникам показывает усиление momentum",
         timestamp: "41 мин назад",
         category: "Hardware",
+        priority: "low",
         description:
           "Supply-side индикаторы улучшились по отслеживаемым источникам.",
       },

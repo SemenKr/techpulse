@@ -12,6 +12,7 @@ import {
 import {
   ChartCard,
   FeedCard,
+  IntelligenceCard,
   MetricCard,
   SectionHeader,
 } from "@/components/dashboard"
@@ -38,6 +39,11 @@ import {
   type CategoryFilter,
   type Timeframe,
 } from "@/features/dashboard/constants"
+import {
+  getPriorityCounts,
+  getPriorityFeedItems,
+  getSignalPriority,
+} from "@/features/dashboard/intelligence"
 import { useI18n } from "@/i18n/i18n-provider"
 
 export default function Home() {
@@ -66,7 +72,15 @@ export default function Home() {
     ...item,
     activity: applyLiveDelta(item.activity, liveTick, index, 2),
   }))
-  const rotatedFeed = rotateItems(dashboard.feed, liveTick)
+  const feedItems = dashboard.feed.map((item) => ({
+    ...item,
+    priority: getSignalPriority(item.priority),
+  }))
+  const priorityFeed = getPriorityFeedItems(feedItems)
+  const rotatedFeed = priorityFeed.length
+    ? [priorityFeed[0], ...rotateItems(priorityFeed.slice(1), liveTick)]
+    : []
+  const priorityCounts = getPriorityCounts(priorityFeed)
 
   useEffect(() => {
     const intervalId = window.setInterval(() => {
@@ -123,6 +137,24 @@ export default function Home() {
     },
   ]
   const categoryMix = getCategoryMixData(category, dashboard.categories)
+  const intelligenceCards = [
+    {
+      ...dashboard.intelligence.cards.priority,
+      title: `${priorityCounts.high} ${dashboard.intelligence.cards.priority.title}`,
+      label: dashboard.priority.high,
+      tone: "attention" as const,
+    },
+    {
+      ...dashboard.intelligence.cards.aiMomentum,
+      label: dashboard.categories.ai,
+      tone: "positive" as const,
+    },
+    {
+      ...dashboard.intelligence.cards.devtoolsSlowdown,
+      label: dashboard.categories.devtools,
+      tone: "neutral" as const,
+    },
+  ]
 
   return (
     <DashboardShell>
@@ -160,6 +192,25 @@ export default function Home() {
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             {metrics.map((metric) => (
               <MetricCard key={metric.title} {...metric} />
+            ))}
+          </div>
+        </section>
+
+        <section className="space-y-4" aria-labelledby="intelligence-heading">
+          <SectionHeader
+            id="intelligence-heading"
+            title={dashboard.intelligence.title}
+            subtitle={dashboard.intelligence.subtitle}
+          />
+          <div className="grid gap-4 md:grid-cols-3">
+            {intelligenceCards.map((insight) => (
+              <IntelligenceCard
+                key={insight.title}
+                title={insight.title}
+                description={insight.description}
+                label={insight.label}
+                tone={insight.tone}
+              />
             ))}
           </div>
         </section>
@@ -263,6 +314,7 @@ export default function Home() {
             <ChartCard
               title={dashboard.analytics.trendingTitle}
               subtitle={dashboard.analytics.trendingSubtitle}
+              id="trending-topics-heading"
             >
               <ul className="grid gap-3 sm:grid-cols-2">
                 {dashboard.topics.map((topic, index) => (
@@ -291,6 +343,7 @@ export default function Home() {
               subtitle={dashboard.activity.subtitle}
             />
             <FeedCard
+              id="priority-feed-heading"
               title={dashboard.activity.feedTitle}
               subtitle={dashboard.activity.feedSubtitle}
               items={rotatedFeed.map((item, index) => ({
@@ -299,6 +352,7 @@ export default function Home() {
                   index === 0 ? dashboard.activity.updatedNow : item.timestamp,
               }))}
               liveUpdateLabel={dashboard.activity.liveUpdateLabel}
+              priorityLabels={dashboard.priority}
             />
             <ChartCard
               title={dashboard.activity.hourlyTitle}
@@ -315,6 +369,7 @@ export default function Home() {
             <ChartCard
               title={dashboard.activity.categoryMixTitle}
               subtitle={dashboard.activity.categoryMixSubtitle}
+              id="category-mix-heading"
               actions={<Badge variant="outline">{selectedCategoryLabel}</Badge>}
             >
               <CategoryDistributionChart

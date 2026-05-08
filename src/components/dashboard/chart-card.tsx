@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/card"
 
 type ChartCardProps = {
+  id?: string
   title: string
   subtitle?: string
   actions?: ReactNode
@@ -16,6 +17,7 @@ type ChartCardProps = {
 }
 
 export function ChartCard({
+  id,
   title,
   subtitle,
   actions,
@@ -27,7 +29,9 @@ export function ChartCard({
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div>
             {subtitle && <CardDescription>{subtitle}</CardDescription>}
-            <CardTitle as="h3">{title}</CardTitle>
+            <CardTitle id={id} as="h3">
+              {title}
+            </CardTitle>
           </div>
           {actions && <div className="shrink-0">{actions}</div>}
         </div>

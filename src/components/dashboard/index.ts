@@ -1,4 +1,5 @@
 export { ChartCard } from "./chart-card"
 export { FeedCard } from "./feed-card"
+export { IntelligenceCard } from "./intelligence-card"
 export { MetricCard } from "./metric-card"
 export { SectionHeader } from "./section-header"
